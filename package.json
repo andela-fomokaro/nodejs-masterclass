@@ -1,0 +1,24 @@
+{
+  "name": "nodejs-masterclass-restfulapi",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node lib/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andela-fomokaro/nodejs-masterclass-restfulAPI.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andela-fomokaro/nodejs-masterclass-restfulAPI/issues"
+  },
+  "homepage": "https://github.com/andela-fomokaro/nodejs-masterclass-restfulAPI#readme",
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-env": "^1.7.0"
+  }
+}
