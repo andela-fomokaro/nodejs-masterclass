@@ -3,10 +3,12 @@
  * 
  * 
 */
-
 // Dependencies
 import http from 'http';
 import url from 'url';
+import string_decoder from 'string_decoder';
+
+const StringDecoder = string_decoder.StringDecoder;
 
 // The server should respond to all requests with a string
 const server = http.createServer( (req, res) => {
@@ -26,11 +28,20 @@ const server = http.createServer( (req, res) => {
   // Get the headers as an object
   const headers = req.headers;
 
-  // Send the response
-  res.end('Hello World\n');
+  //Get the payload, if any
+  var decoder = new StringDecoder('utf-8');
+  var buffer = '';
+  req.on('data', (data) => {
+    buffer += decoder.write(data);
+  });
+  req.on('end', () => {
+    buffer += decoder.end();
 
-  // Log the request path
-  console.log('Request received with these headers', headers);
+    // Send the response
+    res.end('Hello World\n');
+    // Log the request path
+    console.log('Request received with this payloads: ', buffer);
+  });
 });
 
 //Start the server, and have it listen on port 3000
