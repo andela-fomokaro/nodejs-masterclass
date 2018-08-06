@@ -103,9 +103,9 @@ httpsServer.listen(config.httpsPort,function(){
 // Define all the handlers
 const handlers = {};
 
-// Sample handler
-handlers.sample = (data, callback) => {
-  callback(200,{'name':'sample handler'});
+// Ping handler
+handlers.ping = (data, callback) => {
+  callback(200);
 };
 
 // Not found handler
@@ -115,5 +115,5 @@ callback(404);
 
 // Define the request router
 const router = {
-'sample' : handlers.sample
+'ping' : handlers.ping
 };
