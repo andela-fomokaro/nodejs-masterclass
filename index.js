@@ -10,7 +10,8 @@ import url from 'url';
 import fs from 'fs';
 
 import string_decoder from 'string_decoder';
-import environmentToExport from './config';
+import environmentToExport from '././library/config';
+import handlers from '././library/handlers';
 
 const StringDecoder = string_decoder.StringDecoder;
 const config = environmentToExport;
@@ -72,10 +73,10 @@ httpsServer.listen(config.httpsPort,function(){
 
     // Construct the data object to send to the handler
     const data = {
-      'trimmedPath' : trimmedPath,
-      'queryStringObject' : queryStringObject,
-      'method' : method,
-      'headers' : headers,
+      trimmedPath,
+      queryStringObject,
+      method,
+      headers,
       'payload' : buffer
     };
     // Route the request to the handler specified in the router
@@ -101,20 +102,8 @@ httpsServer.listen(config.httpsPort,function(){
  }
 
 
-// Define all the handlers
-const handlers = {};
-
-// Ping handler
-handlers.ping = (data, callback) => {
-  callback(200);
-};
-
-// Not found handler
-handlers.notFound = (data,callback) => {
-callback(404);
-};
-
 // Define the request router
 const router = {
-'ping' : handlers.ping
+'ping' : handlers.ping,
+'users' : handlers.users
 };

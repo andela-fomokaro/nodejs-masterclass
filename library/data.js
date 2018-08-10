@@ -5,23 +5,22 @@
 
 // Dependencies
 import fs from 'fs';
-import path from 'path';
+import helpers from './helpers';
 
 // Container for the module (to be exported)
 const lib = {};
 
 // Base directory of the data folder
-lib.baseDir = path.join(__dirname, './../data/');
+lib.baseDir = './data/';
 
 //Write data to a file
 lib.create = (dir, file, data, callback) => {
-  // Open the file for writing
-  fs.open(lib.baseDir+dir+'/'+file+'.json','wx', (err, fileDescriptor ) => {
+  // Open the file for writing  
+  fs.open(lib.baseDir+dir+'/'+file+'.json', 'w', (err, fileDescriptor ) => {
     if(!err && fileDescriptor){
       // Convert data to string
       const stringData = JSON.stringify(data);
-
-      // Write to file amd close it
+      // Write to file and close it
       fs.writeFile(fileDescriptor, stringData, (err) => {
         if(!err){
           fs.close(fileDescriptor, (err) => {
@@ -36,7 +35,7 @@ lib.create = (dir, file, data, callback) => {
         }
       });
     } else {
-      callback('Could not create new file, it may already exist');
+      callback(err.message, 'Could not create new file, it may already exist');
     }
   });
 };
@@ -44,7 +43,12 @@ lib.create = (dir, file, data, callback) => {
 // Read data from a file
 lib.read = (dir, file, callback) => {
   fs.readFile(lib.baseDir+dir+'/'+file+'.json','utf8', (err, data) => {
-    callback(err, data);
+    if (!err && data) {
+      const parsedData = helpers.parseJsonToObject(data);
+      return callback(false, parsedData);
+    } else {
+      callback(err, data);
+    }
   });
 }
 
