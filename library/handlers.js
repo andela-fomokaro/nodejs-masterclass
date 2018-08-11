@@ -267,8 +267,40 @@ handlers._tokens.get = (data, callback) => {
 };
 
 // Tokens - Put
-handlers._tokens.put = () => {
-  
+// Required data: id, extend
+// Optional data : none
+handlers._tokens.put = (data, callback) => {
+  const payload = JSON.parse(data.payload);
+  const id = typeof(payload.id) === 'string' && payload.id.trim().length === 20 ? payload.id.trim() : false;
+  const extend = typeof(payload.extend) === 'boolean' && payload.extend === true ?  true : false;
+
+  if (id && extend) {
+    // Lookup the token
+    _data.read('tokens', id, (err, tokenData) => {
+      if (!err && tokenData) {
+        // Check to make sure the token isn't already expired
+        if (tokenData.expires > Date.now()) {
+        // Set the expiration an hour from now
+          tokenData.expires = Date.now() + 1000 * 60 * 60;
+
+          // Store the new upates
+          _data.update('tokens', id, tokenData, (err) => {
+            if (!err) {
+              callback(200);
+            } else {
+              callback(500, {'Error': `Could not update the token's expiration`});
+            }
+          });
+        } else {
+          callback(400,{"Error" : "The token has already expired, and cannot be extended."});
+        }
+      } else {
+        callback(400, {'Error': 'Speciified token does not exist'});
+      }
+    });
+  } else {
+    callback(400, {'Error': 'Missing required field(s) are invalid or field(s) are invalid'});
+  }
 };
 
 // Tokens - Delete
