@@ -31,4 +31,30 @@
    }
  }
 
+// Create a string of random alphanumeric characters, of a given length
+helpers.createRandomString = (strlength) => {
+  strlength = typeof(strlength) == 'number' && strlength > 0 ? strlength : false;
+  if (strlength) {
+    // Define all the possible characters that could go into a string
+    const possibleCharacters = 'abcdefghijklmnopqrstuvwxyz';
+
+    // Start the final string
+    let  str = '';
+    for (let i = 1; i <= strlength; i++) {
+      // Get a random character from the possibleCharacters string
+      const randomCharacter = possibleCharacters.charAt(Math.floor(Math.random() * possibleCharacters.length));
+      // Append this character to the final string
+
+      str += randomCharacter;
+    }
+
+    // Return the final string
+    return str;
+
+  } else {
+    return false;
+  }
+}
+
+
 export default helpers;
