@@ -247,8 +247,23 @@ handlers._tokens.post = (data, callback) => {
 };
 
 // Tokens - Get
-handlers._tokens.get = () => {
-  
+handlers._tokens.get = (data, callback) => {
+  // Check that the id is valid
+  let id = data.queryStringObject.id.trim();
+  id = typeof(data.queryStringObject.id) === 'string' && id.length === 20 ? id : false
+
+  if (id) {
+     // Lookup the token
+    _data.read('tokens', id, (err, tokenData) => {
+      if (!err && tokenData){
+        callback(200, tokenData);
+      } else {
+        callback(404);
+      }
+    });
+  } else {
+    callback(400, {'Error': 'Missing required field'});
+  }
 };
 
 // Tokens - Put
