@@ -50,7 +50,7 @@ lib.read = (dir, file, callback) => {
       callback(err, data);
     }
   });
-}
+};
 
 // Update data from the file
 lib.update = (dir, file, data, callback) => {
@@ -82,10 +82,10 @@ lib.update = (dir, file, data, callback) => {
         }
       });
     } else {
-      callback('Could not open the file for updating, it may not exist yet')
+      callback('Could not open the file for updating, it may not exist yet');
     }
   });
-}
+};
 
 
 // Delete a file
@@ -98,6 +98,6 @@ lib.delete = (dir, file, callback) => {
       callback('Error deleting file');
     }
   });
-}
+};
 
 export default lib;
